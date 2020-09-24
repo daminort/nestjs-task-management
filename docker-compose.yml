@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+
+  postgres:
+    image: postgres:11-alpine
+    restart: on-failure
+    environment:
+      PGUSER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: on-failure
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: qwerty123
+    ports:
+      - 5450:80
+    depends_on:
+      - postgres
+
+  api:
+    image: ntm-learning/api
+    build: .
+    restart: on-failure
+    environment:
+      DB_HOST: "postgres"
+      DB_PORT: 5432
+      DATABASE_DEBUG_MODE: "false"
+      JWT_SECRET: "secret_phrase"
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+
+volumes:
+  db-volume:
