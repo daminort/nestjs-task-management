@@ -1,5 +1,5 @@
 # select image
-FROM node:12.18.3-alpine
+FROM node:12.18.3
 RUN npm install -g nodemon
 
 WORKDIR /usr/src/app
