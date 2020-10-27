@@ -33,6 +33,7 @@ export class TasksController {
     @Query(ValidationPipe) filterTaskDto: FilterTaskDto,
     @GetUser() user: User,
   ): Promise<Task[]> {
+    this.logger.verbose(`getTasks. User: ${user.name}, filter: ${JSON.stringify(filterTaskDto)}`);
     return this.taskService.getTasks(filterTaskDto, user);
   }
 
@@ -41,6 +42,7 @@ export class TasksController {
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
   ): Promise<Task> {
+    this.logger.verbose(`getTaskByID. User: ${user.name}, id: ${id}`);
     return this.taskService.getTaskByID(id, user);
   }
 
@@ -50,6 +52,7 @@ export class TasksController {
     @Body() createTaskDto: CreateTaskDto,
     @GetUser() user: User,
   ): Promise<Task> {
+    this.logger.verbose(`createTask. User: ${user.name}, task: ${JSON.stringify(createTaskDto)}`);
     return this.taskService.createTask(createTaskDto, user);
   }
 
@@ -58,6 +61,7 @@ export class TasksController {
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
   ): Promise<void> {
+    this.logger.verbose(`deleteTask. User: ${user.name}, id: ${id}`);
     return this.taskService.deleteTask(id, user);
   }
 
@@ -67,6 +71,7 @@ export class TasksController {
     @Body('status', TaskStatusValidationPipe) status: TaskStatus,
     @GetUser() user: User,
   ): Promise<Task> {
+    this.logger.verbose(`updateTaskStatus. User: ${user.name}, id: ${id}, status: ${status}`);
     return this.taskService.updateTaskStatus(id, status, user);
   }
 }
